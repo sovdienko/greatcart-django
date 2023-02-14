@@ -44,4 +44,11 @@ python manage.py migrate --fake
 python manage.py createsuperuser
 ```
 
-8. gitignore.io - site for generation of .gitignore content for Django
+8. GIT
+
+gitignore.io - site for generation of .gitignore content for Django
+```
+git init
+git add -A 
+git commit -m "initial commit" 
+```
