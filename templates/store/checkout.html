@@ -3,7 +3,7 @@
 {% block content %}
 <section class="section-content padding-y bg">
     <div class="container">
-        <form action="" method="POST">
+        <form action="{% url 'place_order' %}" method="POST">
             {% csrf_token %}
             <!-- ============================ COMPONENT 1 ================================= -->
             <div class="row">

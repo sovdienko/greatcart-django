@@ -19,10 +19,10 @@ from .models import Account
 
 
 # Create your views here.
-def _sent_email(request, mail_subject, user, refirect_html, to_email):
+def sent_email(request, mail_subject, user, refirect_html, to_email):
     current_site = get_current_site(request)
     message = render_to_string(
-        f"accounts/{refirect_html}.html",
+        refirect_html,
         {
             "user": user,
             "domain": current_site,
@@ -56,11 +56,11 @@ def register(request):
             user.save()
 
             # User Activation
-            _sent_email(
+            sent_email(
                 request=request,
                 mail_subject="Please activate your account",
                 user=user,
-                refirect_html="account_verification_email",
+                refirect_html="accounts/account_verification_email.html",
                 to_email=email,
             )
 
@@ -168,11 +168,11 @@ def forgotPassword(request):
             user = Account.objects.get(email__iexact=email)
 
             # User Reset Password email
-            _sent_email(
+            sent_email(
                 request=request,
                 mail_subject="Please reset your Password",
                 user=user,
-                refirect_html="reset_password_email",
+                refirect_html="accounts/reset_password_email.html",
                 to_email=email,
             )
 

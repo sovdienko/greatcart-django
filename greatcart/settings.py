@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "accounts",
     "store",
     "carts",
+    "orders",
 ]
 
 MIDDLEWARE = [
@@ -147,6 +148,6 @@ MESSAGE_TAGS = {
 # SMTP Configuration
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "sovd.badon@gmail.com"
-EMAIL_HOST_PASSWORD = "wjihrwdhcbugvcas"
+EMAIL_HOST_USER = "s1@gmail.com"
+EMAIL_HOST_PASSWORD = "11"
 EMAIL_USE_TLS = True
