@@ -1,12 +1,15 @@
+from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import Category
+from orders.models import OrderProduct
 
-from .models import Product
+from .forms import ReviewForm
+from .models import Product, ReviewRating
 
 
 # Create your views here.
@@ -41,7 +44,26 @@ def product_detail(request, category_slug, product_slug):
         ).exists()
     except Exception as exp:
         raise exp
-    context = {"product": product, "in_cart": in_cart}
+
+    if request.user.is_authenticated:
+        try:
+            order_product_exists = OrderProduct.objects.filter(
+                user=request.user, product=product
+            ).exists()
+        except OrderProduct.DoesNotExist:
+            order_product_exists = False
+    else:
+        order_product_exists = False
+
+    # get the reviews
+    reviews = ReviewRating.objects.filter(product_id=product.id, status_flag=True)
+
+    context = {
+        "product": product,
+        "in_cart": in_cart,
+        "order_product_exists": order_product_exists,
+        "reviews": reviews,
+    }
 
     return render(
         request=request, template_name="store/product_detail.html", context=context
@@ -65,3 +87,29 @@ def search(request):
         "product_count": product_count,
     }
     return render(request=request, template_name="store/store.html", context=context)
+
+
+def submit_review(request, product_id):
+    url = request.META.get("HTTP_REFERER")
+    if request.method == "POST":
+        try:
+            review = ReviewRating.objects.get(
+                user__id=request.user.id, product__id=product_id
+            )
+            # review willbe updated if exists
+            form = ReviewForm(request.POST, instance=review)
+            form.save()
+            messages.success(request, "Thank you! Your review has been updated.")
+        except ReviewRating.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                data = ReviewRating()
+                data.subject = form.cleaned_data["subject"]
+                data.rating = form.cleaned_data["rating"]
+                data.review = form.cleaned_data["review"]
+                data.ip = request.META.get("REMOTE_ADDR")
+                data.product_id = product_id
+                data.user_id = request.user.id
+                data.save()
+                messages.success(request, "Thank you! Your review has been submitted.")
+        return redirect(url)
