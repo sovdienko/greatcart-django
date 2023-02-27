@@ -51,3 +51,20 @@ label:hover~input:checked~label {
 .rating-star i {
     color: #ffb503;
 }
+
+ul.thumb {
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+ul.thumb li {
+    list-style: none;
+    margin: 10px;
+}
+
+ul.thumb img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid grey;
+}

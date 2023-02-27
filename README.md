@@ -52,3 +52,9 @@ git init
 git add -A 
 git commit -m "initial commit" 
 ```
+
+9. Django AWS
+
+```
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-django.html
+```
