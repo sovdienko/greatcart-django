@@ -29,7 +29,7 @@ DEBUG = config("DEBUG", cast=bool, default=True)
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "greatcart-env.eba-vm6pie7t.us-west-2.elasticbeanstalk.com",
+    "greatcart-cource-env.eba-zuru2b4m.us-west-2.elasticbeanstalk.com",
 ]
 
 
